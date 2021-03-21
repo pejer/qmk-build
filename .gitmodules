@@ -1,0 +1,6 @@
+[submodule "qmk-keymap-kyria"]
+	path = qmk-keymap-kyria
+	url = git@github-pejer:pejer/qmk-keymap-kyria.git
+[submodule "qmk-user-pejer"]
+	path = qmk-user-pejer
+	url = git@github-pejer:pejer/qmk-user-pejer.git
