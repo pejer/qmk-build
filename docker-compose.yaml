@@ -20,7 +20,14 @@ services:
     volumes:
       - ./qmk-user-pejer:/qmk_firmware/users/pejer
       - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
-    command: qmk flash -kb kyria -km pejer -bl dfu
+    command: make kyria:pejer:dfu
+    privileged: true
+  kyria_trackball_secondary:
+    image: 'qmk:trackball'
+    volumes:
+      - ./qmk-user-pejer:/qmk_firmware/users/pejer
+      - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
+    command: make kyria:pejer:dfu SECONDARY=1
     privileged: true
   kyria_make_trackball:
     image: 'qmk:trackball'
