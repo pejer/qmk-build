@@ -1,0 +1,30 @@
+---
+version: "3"
+
+services:
+  kyria:
+    image: 'qmk:pejer'
+    volumes:
+      - ./qmk-user-pejer:/qmk_firmware/users/pejer
+      - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
+    command: qmk flash -kb kyria -km pejer -bl dfu
+    privileged: true
+  kyria_make:
+    image: 'qmk:pejer'
+    volumes:
+      - ./qmk-user-pejer:/qmk_firmware/users/pejer
+      - ./qmk-keymap-kyria/qmk_firmware/keyboards/kyria/keymaps/pejer
+    command: make kyria:pejer
+  kyria_trackball:
+    image: 'qmk:trackball'
+    volumes:
+      - ./qmk-user-pejer:/qmk_firmware/users/pejer
+      - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
+    command: qmk flash -kb kyria -km pejer -bl dfu
+    privileged: true
+  kyria_make_trackball:
+    image: 'qmk:trackball'
+    volumes:
+      - ./qmk-user-pejer:/qmk_firmware/users/pejer
+      - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
+    command: make kyria:pejer
