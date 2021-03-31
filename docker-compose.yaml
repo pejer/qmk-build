@@ -6,6 +6,7 @@ services:
     image: 'qmk:pejer'
     volumes:
       - ./qmk-user-pejer:/qmk_firmware/users/pejer
+      - ./.build:/qmk_firmware/.build
       - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
     command: qmk flash -kb kyria -km pejer -bl dfu
     privileged: true
@@ -13,12 +14,14 @@ services:
     image: 'qmk:pejer'
     volumes:
       - ./qmk-user-pejer:/qmk_firmware/users/pejer
+      - ./.build:/qmk_firmware/.build
       - ./qmk-keymap-kyria/qmk_firmware/keyboards/kyria/keymaps/pejer
     command: make kyria:pejer
   kyria_trackball:
     image: 'qmk:trackball'
     volumes:
       - ./qmk-user-pejer:/qmk_firmware/users/pejer
+      - ./.build:/qmk_firmware/.build
       - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
     command: make kyria:pejer:dfu
     privileged: true
@@ -26,6 +29,7 @@ services:
     image: 'qmk:trackball'
     volumes:
       - ./qmk-user-pejer:/qmk_firmware/users/pejer
+      - ./.build:/qmk_firmware/.build
       - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
     command: make kyria:pejer:dfu SECONDARY=1
     privileged: true
@@ -33,5 +37,6 @@ services:
     image: 'qmk:trackball'
     volumes:
       - ./qmk-user-pejer:/qmk_firmware/users/pejer
+      - ./.build:/qmk_firmware/.build
       - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
     command: make kyria:pejer
