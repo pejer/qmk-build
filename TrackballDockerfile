@@ -39,7 +39,7 @@ RUN python3 -m pip install --upgrade pip setuptools wheel
 RUN pip3 install nose2 qmk
 
 RUN cd /
-RUN git clone --single-branch --branch trackball https://github.com/Crote/qmk_firmware.git
+RUN git clone --single-branch --branch trackball-wip https://github.com/Crote/qmk_firmware.git
 # Set the default location for qmk_firmware
 ENV QMK_HOME /qmk_firmware
 WORKDIR /qmk_firmware
