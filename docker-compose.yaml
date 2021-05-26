@@ -2,20 +2,28 @@
 version: "3"
 
 services:
-  kyria:
+  kyria_flash:
     image: 'qmk:pejer'
     volumes:
       - ./qmk-user-pejer:/qmk_firmware/users/pejer
       - ./.build:/qmk_firmware/.build
       - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
-    command: qmk flash -kb kyria -km pejer -bl dfu
+    command: make kyria:pejer:dfu
+    privileged: true
+  kyria_flash_secondary:
+    image: 'qmk:pejer'
+    volumes:
+      - ./qmk-user-pejer:/qmk_firmware/users/pejer
+      - ./.build:/qmk_firmware/.build
+      - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
+    command: make kyria:pejer:dfu SECONDARY=1
     privileged: true
   kyria_make:
     image: 'qmk:pejer'
     volumes:
       - ./qmk-user-pejer:/qmk_firmware/users/pejer
       - ./.build:/qmk_firmware/.build
-      - ./qmk-keymap-kyria/qmk_firmware/keyboards/kyria/keymaps/pejer
+      - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
     command: make kyria:pejer
   kyria_trackball:
     image: 'qmk:trackball'
