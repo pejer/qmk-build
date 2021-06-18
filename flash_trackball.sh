@@ -13,7 +13,7 @@ docker-compose run kyria_trackball;
 echo "================================="
 echo "     FLASHING MASTER DONE";
 echo "  UNPLUG MASTER, PLUG IN SLAVE";
-sleep 4;
+sleep 7;
 echo "      RESET SLAVE HALF";
 echo "================================="
 
