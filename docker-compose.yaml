@@ -1,7 +1,12 @@
 ---
 version: "3"
-
 services:
+  kyria_default:
+    image: 'qmk:pejer'
+    volumes:
+      - ./.build:/qmk_firmware/.build
+    command: make kyria:default:dfu
+    privileged: true
   kyria_flash:
     image: 'qmk:pejer'
     volumes:
