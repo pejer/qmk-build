@@ -1,47 +1,51 @@
-FROM debian:10-slim
+FROM debian:11-slim
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    avr-libc \
     avrdude \
     binutils-arm-none-eabi \
-    binutils-avr \
+    binutils-riscv64-unknown-elf \
     build-essential \
     ca-certificates \
-    clang-format-7 \
+    clang-format-11 \
     dfu-programmer \
     dfu-util \
     dos2unix \
     ca-certificates \
     gcc \
-    gcc-avr \
+    gcc-arm-none-eabi \
+    gcc-riscv64-unknown-elf \
     git \
+    libfl2 \
     libnewlib-arm-none-eabi \
+    picolibc-riscv64-unknown-elf \
     python3 \
     python3-pip \
-    python3-setuptools \
     software-properties-common \
     tar \
+    teensy-loader-cli \
     unzip \
     tar \
     wget \
     zip \
     && rm -rf /var/lib/apt/lists/*
 
-# upgrade gcc-arm-none-eabi from the default 5.4.1 to 6.3.1 due to ARM runtime issues
+# upgrade avr-gcc... for reasons?
 RUN /bin/bash -c "set -o pipefail && \
-    wget -q https://developer.arm.com/-/media/Files/downloads/gnu-rm/6-2017q2/gcc-arm-none-eabi-6-2017-q2-update-linux.tar.bz2 -O - | tar xj --strip-components=1 -C / && \
-    rm -rf /arm-none-eabi/share/ /share/"
+    wget -q https://github.com/ZakKemble/avr-gcc-build/releases/download/v8.3.0-1/avr-gcc-8.3.0-x64-linux.tar.bz2 -O - | tee /tmp/asdf.tar.bz2 | md5sum -c <(echo '588D0BEA4C5D21A1A06AA17625684417  -') && \
+    tar xfj /tmp/asdf.tar.bz2 --strip-components=1 -C / && \
+    rm -rf /share/ /tmp/*"
 
 # Install python packages
-RUN python3 -m pip install --upgrade pip setuptools wheel
-RUN pip3 install nose2 qmk
-
+RUN python3 -m pip install --upgrade pip setuptools wheel qmk
+RUN python3 -m pip install nose2 yapf
 # Set the default location for qmk_firmware
 RUN cd /
 RUN git clone --single-branch --branch master https://github.com/qmk/qmk_firmware.git
 # Set the default location for qmk_firmware
 ENV QMK_HOME /qmk_firmware
 WORKDIR /qmk_firmware
+
+RUN make git-submodule
 
 RUN python3 -m pip install -r /qmk_firmware/requirements.txt
 # Yeah, this will fail but work so we do this nasty ; exit 0
