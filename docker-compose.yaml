@@ -8,7 +8,23 @@ services:
       - ./.build:/qmk_firmware/.build
       - ./qmk-keymap-kyria:/qmk_firmware/keyboards/splitkb/kyria/keymaps/pejer
     privileged: true
-    command: qmk compile -kb splitkb/kyria -km pejer
+    command: qmk compile -kb splitkb/kyria/rev1 -km pejer
+  kyria_flash_primary:
+    image: 'qmk:pejer'
+    volumes:
+      - ./qmk-user-pejer:/qmk_firmware/users/pejer
+      - ./.build:/qmk_firmware/.build
+      - ./qmk-keymap-kyria:/qmk_firmware/keyboards/splitkb/kyria/keymaps/pejer
+    privileged: true
+    command: qmk flash -kb splitkb/kyria/rev1 -km pejer
+  kyria_flash_secondary:
+    image: 'qmk:pejer'
+    volumes:
+      - ./qmk-user-pejer:/qmk_firmware/users/pejer
+      - ./.build:/qmk_firmware/.build
+      - ./qmk-keymap-kyria:/qmk_firmware/keyboards/splitkb/kyria/keymaps/pejer
+    privileged: true
+    command: qmk flash -e SECONDARY=1 -kb splitkb/kyria/rev1 -km pejer
   kyria_default:
     image: 'qmk:pejer'
     volumes:
@@ -23,14 +39,14 @@ services:
       - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
     command: make kyria:pejer:dfu
     privileged: true
-  kyria_flash_secondary:
-    image: 'qmk:pejer'
-    volumes:
-      - ./qmk-user-pejer:/qmk_firmware/users/pejer
-      - ./.build:/qmk_firmware/.build
-      - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
-    command: make kyria:pejer:dfu SECONDARY=1
-    privileged: true
+  # kyria_flash_secondary:
+  #   image: 'qmk:pejer'
+  #   volumes:
+  #     - ./qmk-user-pejer:/qmk_firmware/users/pejer
+  #     - ./.build:/qmk_firmware/.build
+  #     - ./qmk-keymap-kyria:/qmk_firmware/keyboards/kyria/keymaps/pejer
+  #   command: make kyria:pejer:dfu SECONDARY=1
+  #   privileged: true
   kyria_make:
     image: 'qmk:pejer'
     volumes:
